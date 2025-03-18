@@ -5,8 +5,8 @@ title: "Crane: Context-Guided Prompt Learning and Attention Refinement for Zero-
 
 # 🚀 Crane: Context-Guided Prompt Learning and Attention Refinement for Zero-Shot Anomaly Detection
 
-**Anonymous Authors**  
-_(Under Review)_
+<!-- **Anonymous Authors**  
+_(Under Review)_ -->
 
 [📄 Paper (Coming Soon)]() | [💾 Code (Coming Soon)]()
 
@@ -43,7 +43,7 @@ Below is a qualitative comparison between **Crane** and other methods, showcasin
 
 ---
 
-## 🔬 Citation
+<!-- ## 🔬 Citation
 If you find our work useful, please consider citing it:
 
 ```bibtex
@@ -52,4 +52,4 @@ If you find our work useful, please consider citing it:
   author={Anonymous Authors},
   journal={Under Review},
   year={2024}
-}
+} -->
