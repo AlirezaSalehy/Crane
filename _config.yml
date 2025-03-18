@@ -1,6 +1,6 @@
-title: "Paper Title"
-author: "Your Name"
-description: "A brief description of your paper"
+# title: "Paper Title"
+# author: "Your Name"
+# description: "A brief description of your paper"
 baseurl: "" # Leave empty unless using a subdirectory
 url: "https://yourusername.github.io"
 theme: minima # Use a simple built-in theme (can change later)
