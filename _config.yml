@@ -1,0 +1,10 @@
+title: "Paper Title"
+author: "Your Name"
+description: "A brief description of your paper"
+baseurl: "" # Leave empty unless using a subdirectory
+url: "https://yourusername.github.io"
+theme: minima # Use a simple built-in theme (can change later)
+# remote_theme: "pages-themes/minimal@v0.2.0"
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
