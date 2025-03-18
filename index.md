@@ -32,7 +32,7 @@ We compare **Crane** with **AdaCLIP, AnomalyCLIP, and other SOTA methods** on mu
 
 📌 **Results Summary (Pixel-AUPRO & Image-AP on Various Datasets):**
   
-![Quantitative Results](assets/dual_radar.pdf)
+![Quantitative Results](assets/dual_radar.svg)
 
 ---
 
@@ -41,7 +41,7 @@ Below is a qualitative comparison between **Crane** and other methods, showcasin
 
 📌 **Example Results on Various Datasets:**
 
-![Qualitative Results](assets/crane_qualitative_comparison.pdf)
+![Qualitative Results](assets/crane_qualitative_comparison.png)
 
 ---
 
