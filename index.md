@@ -1,11 +1,11 @@
 ---
 layout: default
-title: "Crane: Context-Guided Prompt Learning and Attention Refinement for Zero-Shot Anomaly Detection"
+title: "🚀 Crane: Context-Guided Prompt Learning and Attention Refinement for Zero-Shot Anomaly Detection"
 author: "Anonymous Authors"
-description: "Anomaly detection via context-guided prompt learning and attention refinement."
+description: "Zero-shot Anomaly Detection Model"
 ---
 
-# 🚀 Crane: Context-Guided Prompt Learning and Attention Refinement for Zero-Shot Anomaly Detection
+<!-- # 🚀 Crane: Context-Guided Prompt Learning and Attention Refinement for Zero-Shot Anomaly Detection -->
 
 <!-- **Anonymous Authors**  
 _(Under Review)_ -->
