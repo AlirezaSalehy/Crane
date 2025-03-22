@@ -24,22 +24,23 @@ Recent advancements like **AnomalyCLIP** and **AdaCLIP** leverage CLIP’s zero-
 - **Context-Guided Prompt Learning**: Dynamically conditioning text prompts using image context.  
 - **Attention Refinement**: Modifying the CLIP vision encoder to enhance feature extraction for fine-grained anomaly detection.  
 
-Our method **achieves state-of-the-art results**, improving accuracy by **2% to 10%** across **14 datasets**, demonstrating its effectiveness at both **image and pixel levels**.
+Our method **achieves state-of-the-art results**, improving accuracy by **2% to 30%** across **14 datasets**, demonstrating its effectiveness at both **image and pixel levels**.
 ---
 
 ## 📊 Quantitative Comparison with SOTA
-We compare **Crane** with **AdaCLIP, AnomalyCLIP, and other SOTA methods** on multiple benchmark datasets.
+Unlike AnomalyCLIP and AdaCLIP, **Crane** consistently improves both localization  and detection, setting new benchmark for zero-shot anomaly detection.
 
-📌 **Results Summary (Pixel-AUPRO & Image-AP on Various Datasets):**
+📌 **Image-level AP and pixel-level AUPRO measurements across 7 diverse industrial datasets:**
   
 ![Quantitative Results](assets/dual_radar.svg)
 
 ---
 
 ## 🖼️ Qualitative Comparison with SOTA
-Below is a qualitative comparison between **Crane** and other methods, showcasing its superior anomaly localization.
+AdaCLIP and VAND struggle to maintain a balance between true positive and false negative rates. AnomalyCLIP further enhances sensitivity but continues to exhibit a high false negative rate, limiting its effectiveness. In contrast, Crane benefits from a stronger semantic correlation among patches, which improves the true positive rate while reducing false positives simultaneously.
 
-📌 **Example Results on Various Datasets:**
+
+📌 **Localization outputs for SOTA models, across various industrial textures and anomalous patterns:**
 
 ![Qualitative Results](assets/crane_qualitative_comparison.png)
 
