@@ -1,0 +1,223 @@
+<!-- Updated Academic Project Page Template for Crane Paper -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Crane Project Page">
+  <meta property="og:title" content="Crane: Anomaly-Aware Vision Foundation Model for Industrial Inspection"/>
+  <meta property="og:description" content="Crane: Anomaly-Aware Vision Foundation Model for Industrial Inspection"/>
+  <meta property="og:url" content="https://yourusername.github.io/Crane/"/>
+  <meta property="og:image" content="static/images/first.png" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="600"/>
+
+  <meta name="twitter:title" content="Crane: Anomaly-Aware Vision Foundation Model for Industrial Inspection">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:image" content="static/images/first.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="keywords" content="Anomaly Detection, Vision Transformer, Industrial Inspection, Crane">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title><u>C</u>ontext-guided p<u>R</u>ompt learning and <u>A</u>ttention refi<u>N</u>ement for z<u>E</u>ro-shot anomaly detection</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body" style="background-color: #bdbaba;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <div class="content-wrapper">
+            <h1 class="title is-1 publication-title"><u>C</u>ontext-guided P<u>r</u>ompt learning and <u>A</u>ttention Refi<u>n</u>ement for Z<u>e</u>ro-shot Anomaly Detection</h1>
+            <div class="is-size-5 publication-authors">
+              <b>
+                <span class="author-block">Alireza Salehi<sup>1</sup>,</span>
+                <span class="author-block">Mohammadreza Salehi<sup>2</sup>,</span> </br>
+                <span class="author-block">Reshad Hosseini<sup>1</sup>,</span>
+                <span class="author-block">Cees G. M. Snoek<sup>2</sup>,</span>
+                <span class="author-block">Makoto Yamada<sup>3</sup>,</span>
+                <span class="author-block">Mohammad Sabokrou<sup>3</sup>,</span>
+              </b>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup> University of Tehran, <sup>2</sup> University of Amsterdam, <sup>3</sup> Okinawa Institute of Science and Technology</span><br>
+              <!-- <span class="author-block" style="color: red;">Accepted at ICCV 2025</span> -->
+            </div>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="static/pdfs/" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fas fa-file-pdf"></i>
+                </span>
+                <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/AlirezaSalehy/Crane" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fab fa-github"></i>
+                </span>
+                <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Anomaly Detection (AD) is crucial for medical diagnostics and industrial defect detection. Traditional AD methods rely on normal training samples, but collecting such data is often impractical. Additionally, these methods struggle with generalization across domains.
+          </p>
+          <p>
+            Recent advancements like <b>AnomalyCLIP</b> and <b>AdaCLIP</b> leverage CLIP’s zero-shot generalization but face challenges in bridging the gap between <i>image-level and pixel-level anomaly detection</i>.
+          </p>
+          <p>
+            🚀 <b><u>C</u>ontext-guided P<u>r</u>ompt learning and <u>A</u>ttention Refi<u>n</u>ement for Z<u>e</u>ro-shot anomaly detection (Crane)</b> improves upon these by:
+            <ul>
+              <li><b>Context-Guided Prompt Learning</b>: Dynamically conditioning text prompts using image context.</li>
+              <li><b>Attention Refinement</b>: Modifying the CLIP vision encoder to enhance feature extraction for fine-grained anomaly detection.</li>
+            </ul>
+          </p>
+          <p>
+            As shown in the radar plot below, our method <b>achieves state-of-the-art results</b>, improving image-level detection accuracy by <b>+0.9% to +4.9%</b> and pixel-level anomaly localization by <b>+2.8% to +29.6%</b> across <b>14 datasets</b> in industrial and medical domain, demonstrating its effectiveness at both anomaly localization and detection.
+          </p>
+
+          <div class="has-text-centered">
+            <img src="static/images/Quantitative/dual_radar.svg" style="width: 70%; padding-top: 5px;" alt="Quantitative Result"/>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Method</h2>
+        <div class="content has-text-justified">
+          <p>
+            We propose a unified framework that utilizes CLIP as a zero-shot backbone \( M_{\theta} \) for classification and segmentation while adapting it for anomaly detection to bridge the domain gap between CLIP’s pretraining and specialized anomaly detection tasks. As shown in figure bellow, we learn class-agnostic input prompts \( P \) and trainable tokens inserted into the text encoder \( \Phi_t \), guided by visual feedback from the vision encoder \( \Phi_v \).
+          </p>
+          <p>
+            To handle dense prediction, we introduce the spatially aligned <i>E-Attn</i> branch, which enhances image-text alignment by refining CLIP’s attention, and the <i>D-Attn</i> branch, integrating knowledge from a strong vision encoder such as DINOv2—despite its lack of inherent zero-shot compatibility—for finer-grained refinements.
+          </p>
+          <p>
+            Finally, we introduce a score-based pooling mechanism that fuses anomalous dense features into the global image embedding, yielding a more anomaly-aware global embedding enabling robust pixel- and image-level zero-shot generalization across previously unseen domains, as detailed below. The figure shows an overview of our approach.
+          </p>
+          <div class="columns is-centered has-text-centered" style="display: block;">
+            <img src="static/images/Crane_main_figure.png" alt="Overview of Crane framework. The model integrates Context-Guided Prompt Learning and Attention Refinement into the CLIP framework, improving both localization and detection capabilities for zero-shot anomaly detection." style="width: 90%; padding-top: 10px;"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Quantitative Results</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+
+        <div class="item content">
+          <p class="subtitle has-text-centered" style="font-size: medium;">
+            <b>Comparison of ZSAD methods in the industrial domain.</b> Unlike AnomalyCLIP and AdaCLIP, which fail to achieve consistent improvements, both
+            versions of our model advance the state-of-the-art in image-level and pixel-level metrics.</p>
+            <img src="static/images/Quantitative/Crane_main_table.png" style="width: 70%; padding-top: 5px;" alt="Quantitative Result"/>
+        </div>
+        <div class="item">
+          <p class="subtitle has-text-centered" style="font-size: medium;">
+            <b>Comparison of ZSAD methods in the medical domain.</b> Both versions of our model achieve state-of-the-art performance at the image-level, while our
+            full model sets a new benchmark in pixel-level performance, and the other remains competitive with AnomalyCLIP in segmentation.</p>
+            <img src="static/images/Quantitative/Crane_medical_table.png" style="width: 70%; padding-top: 5px;" alt="Quantitative Result"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Qualitative Results</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item">
+          <p class="subtitle has-text-centered" style="font-size: medium;">
+            <b>Comparison of localization of ZSAD methods.</b> Crane benefits from a stronger semantic correlation
+            among patches, which improves the true positive rate while reducing false positives simultaneously, 
+            demonstrating its superior Zero-shot Anomaly Detection performance. </p>
+          <img src="static/images/Qualitative/crane_qualitative_comparison.png" style="width: 75%; padding-top: 5px;" alt="Qualitative Result"/>
+        </div>
+        <div class="item">
+          <p class="subtitle has-text-centered" style="font-size: medium;">
+            <b>Zero-shot localization of Crane.</b> Anomaly map of Crane over several categories in VisA and MVTec-AD. As shown Crane, cleanly outlines anomaly regions even fine-graineds.</p> 
+          <img src="static/images/Qualitative/crane_qualitative_results_p1.png" style="width: 75%; padding-top: 5px;" alt="Qualitative Result"/>
+        </div>
+        <div class="item">
+          <p class="subtitle has-text-centered" style="font-size: medium;">
+            <b>Zero-shot localization of Crane.</b> Anomaly map of Crane over several categories in MPDD, DTD-Synthethic and DAGM. As shown Crane, cleanly outlines anomaly regions even fine-graineds.</p> 
+          <img src="static/images/Qualitative/crane_qualitative_results_p2.png" style="width: 75%; padding-top: 5px;" alt="Qualitative Result"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX" style="background-color: #fafafa;">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <!-- <pre style="background-color: #f5f5f5;"><code>@inproceedings{yourbibtex2025,
+  title={Crane: Anomaly-Aware Vision Foundation Model for Industrial Inspection},
+  author={Your Name and Collaborator Name and Collaborator Name},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  year={2025}
+}</code></pre> -->
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
