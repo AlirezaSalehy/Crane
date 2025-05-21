@@ -7,7 +7,7 @@ import models
 from models import Crane
 from models.prompt_ensemble import PromptLearner
 from dataset.dataset import Dataset
-from dataset.generate_dataset_json import DATASETS_ROOT
+from Crane import DATASETS_ROOT
 
 from utils.transform import get_transform
 from utils.visualization import visualizer
@@ -50,7 +50,7 @@ class ScoreCalculator(nn.Module):
             patch_features = torch.stack(patch_list, dim=0)
         image_features = F.normalize(image_features, dim=-1)
         patch_features = F.normalize(patch_features, dim=-1)
-
+        
         if self.args.train_with_img_cls_prob != 0:
             with torch.no_grad():
                 prompts, tokenized_prompts, compound_prompts_text, is_train_with_img_cls = \

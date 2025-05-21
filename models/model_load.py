@@ -32,7 +32,6 @@ def _download(
 
     if not cache_dir:
         cache_dir = os.path.expanduser("~/.cache/clip")
-        # cache_dir = os.path.expanduser("/remote-home/iot_zhouqihang/root/.cache/clip")
     os.makedirs(cache_dir, exist_ok=True)
     filename = os.path.basename(url)
 

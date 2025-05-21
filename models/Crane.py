@@ -464,7 +464,7 @@ class Crane(nn.Module):
             self.vfm_patch_size = 14
             
         elif self.vfm_model == 'sam': # SAM-ViT-B	
-            self.vfm = sam_model_registry["vit_b"](checkpoint='/home/alireza/.cache/sam/sam_vit_b_01ec64.pth')
+            self.vfm = sam_model_registry["vit_b"](checkpoint='~/.cache/sam/sam_vit_b_01ec64.pth')
             self.vfm_patch_size = self.vfm.image_encoder.patch_embed.proj.kernel_size
 
         for p in self.vfm.parameters():

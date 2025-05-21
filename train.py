@@ -2,7 +2,7 @@ import models
 from models import Crane
 from models.prompt_ensemble import PromptLearner
 from dataset.dataset import Dataset
-from dataset.generate_dataset_json import DATASETS_ROOT
+from Crane import DATASETS_ROOT
 
 from utils.transform import get_transform
 from utils.loss import FocalLoss, BinaryDiceLoss
@@ -93,12 +93,10 @@ def train(args):
                 if precompute:
                     image_features, patch_features = items['image_features'].to(device), items['patch_features'].to(device)
                     patch_features = patch_features.permute(1, 0, *range(2, patch_features.dim())) # 4, N, L, C
-                    
                 else:
                     image = items['img'].to(device)
                     image_features, patch_features = model.encode_image(image, args.features_list, self_cor_attn_layers=20)
                     patch_features = torch.stack(patch_features, dim=0) 
-
                 image_features = F.normalize(image_features, dim=-1) 
                 patch_features = F.normalize(patch_features, dim=-1)
             
@@ -180,7 +178,7 @@ if __name__ == '__main__':
 
     parser.add_argument("--type", type=str, default='train') 
     parser.add_argument("--device", type=int, default=0, help="cuda device")
-    parser.add_argument("--epoch", type=int, default=15, help="epochs")
+    parser.add_argument("--epoch", type=int, default=5, help="epochs")
     parser.add_argument("--learning_rate", type=float, default=0.001, help="learning rate")
     parser.add_argument("--batch_size", type=int, default=8, help="batch size")
     parser.add_argument("--aug_rate", type=float, default=0.0, help="augmentation rate")
