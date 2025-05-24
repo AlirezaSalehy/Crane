@@ -2,21 +2,21 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/crane-context-guided-prompt-learning-and/zero-shot-anomaly-detection-on-visa)](https://paperswithcode.com/sota/zero-shot-anomaly-detection-on-visa?p=crane-context-guided-prompt-learning-and)
 
 # *Crane*; Robust Novel Anomaly Detector 
-The repository official code for *Crane*, a zero-shot anomaly detection framework built on CLIP.
+The repository contains official code for *Crane*, a zero-shot anomaly detection framework built on CLIP.
 
 ---
 
 ## 📌 Table of Contents
 
-- [Introduction](#Introduction)
+- [Introduction](#introduction)
 - [Results](#-main-results)
+- [Visualization](#%EF%B8%8F-visualization)
 - [Getting Started](#getting-started)
-- [Installation](#-Installation)
+- [Installation](#-installation)
 - [Datasets](#-datasets)
+- [Inference](#-inference)
+- [Training](#-training)
 - [Custom Dataset](#-custom-dataset)
-- [Citation](#Citation)
-- [Acknowledgements](#acknowledgements)
-- [Contact](#contact)
 
 ---
 
@@ -24,11 +24,11 @@ The repository official code for *Crane*, a zero-shot anomaly detection framewor
 
 Crane is a zero-shot anomaly detection (ZSAD) framework that leverages a pre-trained vision-language model, CLIP, for robust and generalizable anomaly localization. It introduces two attention refinement modules—E-Attn and D-Attn—inserted into the vision backbone to enhance patch-level alignment, fully utilizing the pretrained knowledge, for the zero-shot task. For image-level refinement, Crane adjusts the CLS token to improve global anomaly sensitivity and incorporates a context-guided prompt learning strategy to better model finer-grained anomalies. Together, these components strengthen both image-level and pixel-level detection. Extensive experiments across 14 datasets from industrial and medical domains show that Crane achieves state-of-the-art performance with consistent improvements across multiple evaluation metrics.
 
-### Key Features
+<!-- ### Key Features
 - Enhancing the sensitivity of global  to anomalous cues for image-level anomaly detection
 - Reinforcing patch-level alignment by extending self-correlation attention through E-Attn
 - Further improving patch-level alignment using the similarity of DINO features through D-Attn
-- Improving auxiliary training generalization through context-guided prompt learning 
+- Improving auxiliary training generalization through context-guided prompt learning  -->
 
 
 ## Overview
@@ -43,6 +43,10 @@ Crane is a zero-shot anomaly detection (ZSAD) framework that leverages a pre-tra
 ### Zero-shot evaluation on medical datasets
 ![Medical](assets/Table2.png)
 
+## 🖼️ Visualization
+### Samples of zero-shot anomaly localization of Crane for both the main setting and the medical setting (discussed in Appendix D). The complete set of visualizations can be found in Appendix of the paper.
+![total](assets/visualization_combined.jpg)
+
 ## Getting Started
 To reproduce the results, follow the instructions below to run inference and training:
 
@@ -54,30 +58,33 @@ git clone https://github.com/AlirezaSalehy/Crane.git && cd Crane
 bash setup.sh
 conda activate crane_env
 ```
-The required checkpoints for CLIP and DINO will be downloaded automatically by the code and stored in `~/.cache`. However, the ViT-B SAM checkpoint must be downloaded manually.
+The required checkpoints for CLIP and DINO checkpoints will be downloaded automatically by the code and stored in `~/.cache`. However, the ViT-B SAM checkpoint must be downloaded manually.
 Please download `sam_vit_b_01ec64.pth` from the official Segment Anything repository [here](https://github.com/facebookresearch/segment-anything) to the following directory:
 ```
 ~/.cache/sam/sam_vit_b_01ec64.pth
 ```
 
 ### 📁 Datasets
-You can download the datasets from their official sources and use utilities in `datasets/generate_dataset_json/`  to generate a compatible meta.json. Alternatively from the [AdaCLIP repository](https://github.com/caoyunkang/AdaCLIP?tab=readme-ov-file#industrial-visual-anomaly-detection-datasets) which has provided a compatible format of the datasets. Place all datasets under `DATASETS_ROOT`, which is defined in [`./__init__.py`](__init__.py). 
+You can download the datasets from their official sources, and use utilities in `datasets/generate_dataset_json/` to generate a compatible meta.json. Alternatively from the [AdaCLIP repository](https://github.com/caoyunkang/AdaCLIP?tab=readme-ov-file#industrial-visual-anomaly-detection-datasets) which has provided a compatible format of the datasets. Place all datasets under `DATASETS_ROOT`, which is defined in [`./__init__.py`](__init__.py). 
 
-### Inference
+### 🔍 Inference
+The checkpoints for our trained "default" model are available in [`checkpoints`](/checkpoints/) directory. After installing needed libraries, reproduce the results by running: 
+```bash
+bash test.sh default "0"
+```
+Here, `default` refers to the model_name, and `"0"` specifies the CUDA device ID(s).
+
+### 🔧 Training
+To train new checkpoints using the default setting, simply run:
 
 ```bash
-bash test.sh default
+bash train.sh new_model 0
 ```
-
-### Training
-
-```bash
-bash train.sh default
-```
+where `new_model` and `0` specify the name for the checkpoint and the available cuda device ID.
 
 ## ➕ Custom Dataset
 
-You can use your custom dataset with our model easily following instructions bellow:
+You can use your custom dataset with our model easily following instructions below:
 
 ### 1. Organize Your Data
 Your dataset must either include a `meta.json` file at the root directory, or be organized so that one can be automatically generated.
@@ -152,11 +159,12 @@ If you find this project helpful for your research, please consider citing the f
 This project builds upon:
 
 - [AdaCLIP](https://github.com/caoyunkang/AdaCLIP)
+- [VAND](https://github.com/ByChelsea/VAND-APRIL-GAN)
 - [AnomalyCLIP](https://github.com/zqhang/AnomalyCLIP)
 - [OpenAI CLIP](https://github.com/openai/CLIP)
 - [ProxyCLIP](https://github.com/mc-lan/ProxyCLIP)
 
-We thank the authors for their contributions and open-source support.
+We greatly appreciate the authors for their contributions and open-source support.
 
 ---
 

@@ -1,0 +1,66 @@
+
+Timestamp: 2025-05-25 07:18:26
+model_name: trained_on_mvtec_default
+seed: 111
+visualize: False
+type: test
+devices: [0, 1, 2, 3, 4, 5, 6, 7]
+epoch: 1
+batch_size: 32
+aug_rate: 0.0
+datasets_root_dir: /home/alireza/datasets
+dataset: headct
+portion: 1
+k_shot: 0
+depth: 9
+n_ctx: 12
+t_n_ctx: 4
+train_with_img_cls_prob: 0
+train_with_img_cls_type: pad_suffix
+dino_model: dinov2
+use_scorebase_pooling: True
+image_size: 518
+features_list: [24]
+sigma: 4
+soft_mean: True
+attn_type: qq+kk+vv
+both_eattn_dattn: True
+why: None
+log_dir: washington-blossom
+data_path: ['/home/alireza/datasets/headct/']
+checkpoint_path: ./checkpoints/trained_on_mvtec_default/epoch_1.pth
+save_path: ./results/trained_on_mvtec_default/test_on_headct/
+Command arguments: --device 0 1 2 3 4 5 6 7 --epoch 1 --dino_model dinov2 --soft_mean True --dataset headct --model_name trained_on_mvtec_default
+
+Timestamp: 2025-05-25 17:47:54
+model_name: trained_on_mvtec_default
+seed: 111
+visualize: False
+type: test
+devices: [0, 1, 2, 3, 4, 5, 6, 7]
+epoch: 1
+batch_size: 32
+aug_rate: 0.0
+datasets_root_dir: /home/alireza/datasets
+dataset: headct
+portion: 1
+k_shot: 0
+depth: 9
+n_ctx: 12
+t_n_ctx: 4
+train_with_img_cls_prob: 0
+train_with_img_cls_type: pad_suffix
+dino_model: dinov2
+use_scorebase_pooling: True
+image_size: 518
+features_list: [24]
+sigma: 4
+soft_mean: True
+attn_type: qq+kk+vv
+both_eattn_dattn: True
+why: None
+log_dir: washington-blossom
+data_path: ['/home/alireza/datasets/headct/']
+checkpoint_path: ./checkpoints/trained_on_mvtec_default/epoch_1.pth
+save_path: ./results/trained_on_mvtec_default/test_on_headct/
+Command arguments: --device 0 1 2 3 4 5 6 7 --epoch 1 --dino_model dinov2 --soft_mean True --dataset headct --model_name trained_on_mvtec_default

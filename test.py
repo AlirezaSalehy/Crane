@@ -7,7 +7,7 @@ import models
 from models import Crane
 from models.prompt_ensemble import PromptLearner
 from dataset.dataset import Dataset
-from Crane import DATASETS_ROOT
+from __init__ import DATASETS_ROOT
 
 from utils.transform import get_transform
 from utils.visualization import visualizer
@@ -89,7 +89,7 @@ class ScoreCalculator(nn.Module):
             image_features = alpha * clustered_feature + (1 - alpha) * image_features
             image_features = F.normalize(image_features, dim=1)
 
-        image_logits = calc_similarity_logits(image_features, text_features)
+        image_logits = calc_similarity_logits(image_features, text_features, temp=0.01) # NOTE NOTE
         image_pred = image_logits.softmax(dim=-1)
         anomaly_score = image_pred[:, 1].detach()
 
@@ -163,7 +163,7 @@ def process_dataset(model, dataloader, class_details, args):
         
     class_names, class_ids = class_details
     if args.visualize:
-        for clss, dic in results:
+        for clss, dic in results.items():
             visualizer(dic['img_paths'], dic['anomaly_maps'], dic['imgs_masks'], 518, f'{args.model_name}/{args.dataset}/{args.log_dir}/{class_names[clss]}', draw_contours=True)
 
     epoch_metrics = []
@@ -214,13 +214,13 @@ def test(args):
 if __name__ == '__main__':    
     parser = argparse.ArgumentParser("Crane", add_help=True)
     # model
-    parser.add_argument("--model_name", type=str, default="trained_on_mvtec_default", help="cuda device")
+    parser.add_argument("--model_name", type=str, default="trained_on_mvtec_default", help="model_name")
     parser.add_argument("--seed", type=int, default=111, help="random seed")
     parser.add_argument("--visualize", type=str2bool, default=False)
     
     parser.add_argument("--type", type=str, default='test') 
     parser.add_argument("--devices", nargs='+', type=int, default=[0])
-    parser.add_argument("--epoch", type=int, default=12) 
+    parser.add_argument("--epoch", type=int, default=5) 
     parser.add_argument("--batch_size", type=int, default=32, help="batch size")
     parser.add_argument("--aug_rate", type=float, default=0.0, help="augmentation rate")
 
@@ -236,20 +236,20 @@ if __name__ == '__main__':
     parser.add_argument("--train_with_img_cls_type", type=str, choices=["none", "replace_prefix", "replace_suffix", "pad_prefix", "pad_suffix"], default="pad_suffix")
 
     parser.add_argument("--dino_model", type=str, choices=['none', 'dinov2', 'dino', 'sam'], default='dinov2')
-    parser.add_argument("--use_scorebase_pooling", type=str2bool, default=True) # 
+    parser.add_argument("--use_scorebase_pooling", type=str2bool, default=True)
 
-    parser.add_argument("--image_size", type=int, default=518, help="image size")
-    parser.add_argument("--features_list", type=int, nargs="+", default=[24], help="features used")
+    parser.add_argument("--image_size", type=int, default=518, help="input image size")
+    parser.add_argument("--features_list", type=int, nargs="+", default=[24], help="layer features used")
     parser.add_argument("--sigma", type=int, default=4, help="zero shot")
-    parser.add_argument("--soft_mean", type=str2bool, default=True) # 
+    parser.add_argument("--soft_mean", type=str2bool, default=False) 
 
     parser.add_argument("--attn_type", type=str, choices=["vv", "kk", "qq", "qq+kk", "qq+kk+vv", "(q+k+v)^2"], default="qq+kk+vv")
     parser.add_argument("--both_eattn_dattn", type=str2bool, default=True)
 
-    parser.add_argument("--why", type=str, help="Explanation about this experiment and how it is different other than the arguement given during calling")
+    parser.add_argument("--why", type=str, help="Explanation about this experiment and how it is different other than parameter values")
     args = parser.parse_args()
     
-    if 'CUDA_VISIBLE_DEVICES' not in os.environ: # Forcing all the tensors on the specified device(s)
+    if 'CUDA_VISIBLE_DEVICES' not in os.environ: # Forcing all the tensors to be on the specified device(s)
         os.environ['CUDA_VISIBLE_DEVICES'] = ','.join(map(str, args.devices)) if len(args.devices) > 1 else str(args.devices)
         command = [sys.executable,  __file__, ] + sys.argv[1:] 
         process = subprocess.Popen(command, env=os.environ)
