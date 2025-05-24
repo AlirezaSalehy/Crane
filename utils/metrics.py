@@ -81,6 +81,7 @@ def pixel_level_metrics(results, obj, metric):
         if len(pr.shape) == 4:
             pr = pr.squeeze(1)
         performance = cal_pro_score_gpu(gt, pr)
+        # performance = cal_pro_score(gt, pr)
     elif metric == 'pixel-ap':     # NOTE: The order in sklearn and torch metrics is inverse
         # gt = np.array(gt.cpu()); pr = np.array(pr.cpu())
         # performance= average_precision_score(gt.ravel(), pr.ravel())
@@ -98,6 +99,9 @@ def cal_pro_score_gpu(masks, amaps, max_step=200, expect_fpr=0.3):
     device="cuda"
     if not torch.is_tensor(amaps):
         amaps = torch.tensor(amaps)
+    if not torch.is_tensor(masks):
+        masks = torch.tensor(masks)
+        
     amaps = amaps.to(device)
     masks = masks.to(device)
     

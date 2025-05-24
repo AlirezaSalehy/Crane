@@ -34,12 +34,14 @@ def visualizer(pathes, anomaly_map, masks, img_size, cls_name, save_path='./vis_
         cls = path.split('/')[-2]
         filename = path.split('/')[-1]
         
-        # Modify filename if contours are enabled
-        if draw_contours:
-            filename_ctr = filename.split('.')[0] + "_cntr." + filename.split('.')[-1]  # Append '_cntr' before file extension
-
+        # Save the final visualization
+        save_vis = os.path.join(save_path, 'imgs', str(cls_name), str(cls))
+        os.makedirs(save_vis, exist_ok=True)
+        
         # Load original image and resize
         vis = cv2.cvtColor(cv2.resize(cv2.imread(path), (img_size, img_size)), cv2.COLOR_BGR2RGB)
+        filename_orig = filename.split('.')[0] + "_orig." + filename.split('.')[-1]  # Append '_orig'
+        cv2.imwrite(os.path.join(save_vis, filename_orig), vis)
 
         # Use the provided mask (it's guaranteed to be available)
         gt_mask = masks[idx].detach().cpu().numpy()
@@ -51,14 +53,12 @@ def visualizer(pathes, anomaly_map, masks, img_size, cls_name, save_path='./vis_
 
         # Convert back to BGR for OpenCV
         vis = cv2.cvtColor(vis, cv2.COLOR_RGB2BGR)
-
-        # Save the final visualization
-        save_vis = os.path.join(save_path, 'imgs', str(cls_name), str(cls))
-        os.makedirs(save_vis, exist_ok=True)
-        cv2.imwrite(os.path.join(save_vis, filename), vis)
+        filename_pred = filename.split('.')[0] + "_pred." + filename.split('.')[-1]  # Append '_pred'
+        cv2.imwrite(os.path.join(save_vis, filename_pred), vis)
         
         # Find and overlay contours (only if draw_contours is True)
         if draw_contours:
+            filename_ctr = filename.split('.')[0] + "_cntr." + filename.split('.')[-1]  # Append '_cntr' before file extension
             contours, _ = cv2.findContours(gt_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             cv2.drawContours(vis, contours, -1, (120, 251, 120), 2)  # Pale green contours
             cv2.imwrite(os.path.join(save_vis, filename_ctr), vis)

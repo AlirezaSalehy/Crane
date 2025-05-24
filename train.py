@@ -2,7 +2,7 @@ import models
 from models import Crane
 from models.prompt_ensemble import PromptLearner
 from dataset.dataset import Dataset
-from Crane import DATASETS_ROOT
+from __init__ import DATASETS_ROOT
 
 from utils.transform import get_transform
 from utils.loss import FocalLoss, BinaryDiceLoss
@@ -172,7 +172,7 @@ if __name__ == '__main__':
     parser.add_argument("--datasets_root_dir", type=str, default=f"{DATASETS_ROOT}")
     parser.add_argument("--train_data_path", type=str, nargs="+", default=[f"{DATASETS_ROOT}/{ds}/" for ds in dss])
     parser.add_argument("--save_path", type=str, default='./checkpoints/')
-    parser.add_argument("--model_name", type=str, default="default")
+    parser.add_argument("--model_name", type=str, default="default") # NOTE: The "trained_on_<DATASET_NAME>" will be prepended to the model name for saving checkpoints
     parser.add_argument("--seed", type=int, default=111)
     parser.add_argument("--save_freq", type=int, default=1, help="save frequency")
 
@@ -188,8 +188,8 @@ if __name__ == '__main__':
     parser.add_argument("--portion", type=float, default=1) 
 
     parser.add_argument("--image_size", type=int, default=518, help="image size")
-    parser.add_argument("--features_list", type=int, nargs="+", default=[24], help="features used")
-    parser.add_argument("--interpolation", type=str, choices=['nearest', 'bilinear'], default='nearest')
+    parser.add_argument("--features_list", type=int, nargs="+", default=[24], help="layer features used")
+    parser.add_argument("--interpolation", type=str, choices=['nearest', 'bilinear'], default='nearest') 
 
     parser.add_argument("--depth", type=int, default=9, help="image size")
     parser.add_argument("--n_ctx", type=int, default=12, help="zero shot")
@@ -199,7 +199,7 @@ if __name__ == '__main__':
     parser.add_argument("--train_with_img_cls_type", type=str, choices=["none", "replace_prefix", "replace_suffix", "pad_prefix", "pad_suffix"], default="pad_suffix")
     parser.add_argument("--dino_model", type=str, choices=['none', 'dinov2', 'dino', 'sam'], default='dinov2')
     parser.add_argument("--both_eattn_dattn", type=str2bool, default=True)
-    parser.add_argument("--use_scorebase_pooling", type=str2bool, default=True) # 
+    parser.add_argument("--use_scorebase_pooling", type=str2bool, default=True) 
     parser.add_argument("--attn_type", type=str, choices=["vv", "kk", "qq", "qq+kk", "qq+kk+vv", "(q+k+v)^2"], default="qq+kk+vv")
     parser.add_argument("--why", type=str, default="Neccessity of the experiment")
 
