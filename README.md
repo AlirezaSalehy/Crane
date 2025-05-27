@@ -1,7 +1,7 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/crane-context-guided-prompt-learning-and/zero-shot-anomaly-detection-on-mvtec-ad-1)](https://paperswithcode.com/sota/zero-shot-anomaly-detection-on-mvtec-ad-1?p=crane-context-guided-prompt-learning-and) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/crane-context-guided-prompt-learning-and/zero-shot-anomaly-detection-on-visa)](https://paperswithcode.com/sota/zero-shot-anomaly-detection-on-visa?p=crane-context-guided-prompt-learning-and)
 
-# *Crane*; Robust Novel Anomaly Detector 
+# *Crane*; Context-Guided Prompt Learning and Attention Refinement for Zero-Shot Anomaly Detection
 The repository contains official code for *Crane*, a zero-shot anomaly detection framework built on CLIP.
 
 ---
@@ -22,8 +22,8 @@ The repository contains official code for *Crane*, a zero-shot anomaly detection
 
 ## Introduction
 
-Crane is a zero-shot anomaly detection (ZSAD) framework that leverages a pre-trained vision-language model, CLIP, for robust and generalizable anomaly localization. It introduces two attention refinement modules—E-Attn and D-Attn—inserted into the vision backbone to enhance patch-level alignment, fully utilizing the pretrained knowledge, for the zero-shot task. For image-level refinement, Crane adjusts the CLS token to improve global anomaly sensitivity and incorporates a context-guided prompt learning strategy to better model finer-grained anomalies. Together, these components strengthen both image-level and pixel-level detection. Extensive experiments across 14 datasets from industrial and medical domains show that Crane achieves state-of-the-art performance with consistent improvements across multiple evaluation metrics.
-
+Crane is a zero-shot anomaly detection (ZSAD) framework that leverages a pre-trained vision-language model, CLIP, for robust and generalizable anomaly localization. It introduces two attention refinement modules—E-Attn and D-Attn—inserted into the vision backbone to enhance patch-level alignment, fully utilizing the pretrained knowledge for the zero-shot task. For image-level refinement, Crane adjusts the CLS token to improve global anomaly sensitivity and incorporates a context-guided prompt learning strategy to better model finer-grained anomalies. Together, these components strengthen both image-level and pixel-level detection. Extensive experiments across 14 datasets from industrial and medical domains show that Crane achieves state-of-the-art performance, consistently improving over AdaCLIP and AnomalyCLIP by 2% to 29% across multiple evaluation metrics.
+ 
 <!-- ### Key Features
 - Enhancing the sensitivity of global  to anomalous cues for image-level anomaly detection
 - Reinforcing patch-level alignment by extending self-correlation attention through E-Attn
@@ -134,6 +134,10 @@ Then you should place your dataset in the `DATASETS_ROOT`, specified in [`datase
 ```bash
 python test.py --dataset YOUR_DATASET --model_name default --epoch 5
 ```
+## ⚡Efficient Implementation
+- For fair inference throughput comparison with other methods, the default setting is single GPU and original AUPRO implementation. But below, you can get to know some of the enhancements that you can enable.  
+- Due to the unusual slowness of the original implementation of AUPRO and not finding a good alternative, I made a few optimizations and tested them against the original. The results are available here in [FasterAUPRO](https://github.com/AlirezaSalehy/FasterAUPRO). The optimized version computes AUPRO **3× to 38×** faster, saving you hours in performance evaluation.
+- The `test.py` implementation supports multi-GPU, and by specifying more CUDA IDs with `--devices`, you can benefit from further execution speedup.  
 
 ## 🔒 License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

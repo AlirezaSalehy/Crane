@@ -89,7 +89,7 @@ class ScoreCalculator(nn.Module):
             image_features = alpha * clustered_feature + (1 - alpha) * image_features
             image_features = F.normalize(image_features, dim=1)
 
-        image_logits = calc_similarity_logits(image_features, text_features, temp=0.01) # NOTE NOTE
+        image_logits = calc_similarity_logits(image_features, text_features)
         image_pred = image_logits.softmax(dim=-1)
         anomaly_score = image_pred[:, 1].detach()
 

@@ -114,7 +114,7 @@ def cal_pro_score_gpu(masks, amaps, max_step=200, expect_fpr=0.3):
     coords_list = [[(region.coords[:, 0], region.coords[:, 1], len(region.coords)) for region in regionprops] for regionprops in regionprops_list]
     inverse_masks = 1 - masks
     tn_pixel = inverse_masks.sum().item() # Pixels that truly has the label of 0
-    for th in torch.arange(min_th, max_th, delta, device=device):
+    for th in np.arange(min_th, max_th, delta):
         binary_amaps[amaps <= th], binary_amaps[amaps > th] = 0, 1
         pro = []
         
@@ -129,11 +129,12 @@ def cal_pro_score_gpu(masks, amaps, max_step=200, expect_fpr=0.3):
         fprs.append(fpr)
         ths.append(th.item())
     
-    pros, fprs, ths = torch.tensor(pros, device=device), torch.tensor(fprs, device=device), torch.tensor(ths, device=device)
+    pros, fprs, ths = np.array(pros), np.array(fprs), np.array(ths)
     idxes = fprs < expect_fpr
     fprs = fprs[idxes]
+    pros = pros[idxes]
     fprs = (fprs - fprs.min()) / (fprs.max() - fprs.min())
-    pro_auc = auc(fprs.cpu().numpy(), pros[idxes].cpu().numpy())
+    pro_auc = auc(fprs.cpu().numpy(), pros.cpu().numpy())
     return pro_auc
 
 # https://github.com/M-3LAB/open-iad/blob/main/metric/mvtec3d/au_pro.py#L205
