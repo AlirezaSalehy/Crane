@@ -1,24 +1,35 @@
-model_name=$1
-device=$2
+# To test the current checkpoints (reported in paper)
+device=$1
 
-# Use bellow alternatively for the woDattn model
-# base_command="python test.py --device $device --epoch 5 --dino_model none --features_list 6 12 18 24"
-base_command="python test.py --device $device --epoch 5 --dino_model dinov2"
-command="$base_command --dataset mvtec --model_name trained_on_visa_$model_name"
-eval $command
+run_for_trained_on_mvtec() {
+    local base_command="$1"
+    shift
+    local datasets=("$@")
 
-# Use bellow alternatively for the woDattn model
-# base_command="python test.py --device $device --epoch 5 --dino_model none --features_list 6 12 18 24"
-base_command="python test.py --device $device --epoch 5 --dino_model dinov2"
-for dataset in visa mpdd sdd btad dtd dagm; do
-    command="$base_command --dataset $dataset --model_name trained_on_mvtec_$model_name"
-    eval $command
-done
+    for dataset in "${datasets[@]}"; do
+        local command="$base_command --dataset $dataset --model_name trained_on_mvtec_$cur_model_name"
+        eval "$command"
+    done
+}
 
-# Use bellow alternatively for the woDattn model
-# base_command="python test.py --device $device --epoch 5 --dino_model none --features_list 6 12 18 24 --soft_mean True"
-base_command="python test.py --device $device --epoch 1 --dino_model dinov2 --soft_mean True"
-for dataset in brainmri headct br35h isic tn3k cvc-colondb cvc-clinicdb; do
-    command="$base_command --dataset $dataset --model_name trained_on_mvtec_$model_name"
-    eval $command
-done 
+# Table 1 Training Scheme  
+# Crane (without D-Attn)
+cur_model_name="woDattn"
+base_command="python test.py --devices $device --epoch 5 --dino_model none --soft_mean True --features_list 6 12 18 24 --visualize False"
+eval "$base_command --dataset mvtec --model_name trained_on_visa_$cur_model_name"
+run_for_trained_on_mvtec "$base_command" visa mpdd sdd btad dtd dagm
+run_for_trained_on_mvtec "$base_command" brainmri headct br35h isic tn3k cvc-colondb cvc-clinicdb
+
+# Table 1 Training Scheme  
+# Crane+
+cur_model_name="default"
+# MVTec
+base_command="python test.py --devices $device --epoch 5 --dino_model dinov2 --features_list 24 --visualize False"
+eval "$base_command --dataset mvtec --model_name trained_on_visa_$cur_model_name"
+# visa mpdd sdd btad dtd
+run_for_trained_on_mvtec "$base_command" visa mpdd sdd btad dtd
+eval "$base_command --dataset dagm --soft_mean True --model_name trained_on_mvtec_$cur_model_name"
+# DAGM
+base_command="python test.py --devices $device --epoch 1 --dino_model dinov2 --soft_mean True --features_list 24 --visualize False"
+# Medicals
+run_for_trained_on_mvtec "$base_command" brainmri headct br35h isic tn3k cvc-colondb cvc-clinicdb

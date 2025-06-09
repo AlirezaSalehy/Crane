@@ -96,9 +96,12 @@ def train(args):
                 else:
                     image = items['img'].to(device)
                     image_features, patch_features = model.encode_image(image, args.features_list, self_cor_attn_layers=20)
-                    patch_features = torch.stack(patch_features, dim=0) 
-                image_features = F.normalize(image_features, dim=-1) 
-                patch_features = F.normalize(patch_features, dim=-1)
+                    # patch_features = torch.stack(patch_features, dim=0) 
+                # image_features = F.normalize(image_features, dim=-1) 
+                # patch_features = F.normalize(patch_features, dim=-1)
+                image_features = image_features / image_features.norm(dim=-1, keepdim=True) 
+                patch_features = [patch_feature / patch_feature.norm(dim=-1, keepdim=True) for patch_feature in patch_features] # Note 
+                patch_features = torch.stack(patch_features, dim=0) 
             
                 # Text Features
                 #########################################################################

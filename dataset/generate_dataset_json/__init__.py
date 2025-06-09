@@ -1,1 +1,0 @@
-DATASETS_ROOT='/home/alireza/datasets'

@@ -47,9 +47,12 @@ class ScoreCalculator(nn.Module):
     def forward(self, image):
         with torch.no_grad():
             image_features, patch_list = self.model.encode_image(image, self.args.features_list, self_cor_attn_layers=20)
-            patch_features = torch.stack(patch_list, dim=0)
-        image_features = F.normalize(image_features, dim=-1)
-        patch_features = F.normalize(patch_features, dim=-1)
+            # patch_features = torch.stack(patch_list, dim=0)
+        image_features = image_features / image_features.norm(dim=-1, keepdim=True) 
+        patch_features = [patch_feature / patch_feature.norm(dim=-1, keepdim=True) for patch_feature in patch_list] # Note 
+        patch_features = torch.stack(patch_features, dim=0) 
+        # image_features = F.normalize(image_features, dim=-1)
+        # patch_features = F.normalize(patch_features, dim=-1)
         
         if self.args.train_with_img_cls_prob != 0:
             with torch.no_grad():
@@ -141,7 +144,7 @@ def process_dataset(model, dataloader, class_details, args):
             text_features = F.normalize(text_features, dim=-1).cuda()
         score_calc.text_features = text_features  
 
-    dp_calc = nn.DataParallel(score_calc, device_ids=args.devices)
+    dp_calc = nn.DataParallel(score_calc)
     dp_calc.eval()
     dp_calc.cuda()
     
@@ -185,10 +188,10 @@ def generate_epoch_performance_table(epoch_metrics_dataframe, class_names):
 def evaluate(model, items, class_details, args):
     save_path = f'{args.save_path}/{args.log_dir}/epoch_{args.epoch}/'
     logger = get_logger(save_path)
-
-    print(f"process_dataset, Batch size: {args.batch_size}")
+    batch_size=min(8*len(args.devices), args.batch_size) # So not to overflow the gpu memory
+    print(f"process_dataset, Batch size: {batch_size}")
     # dataloader = DataLoader(items, batch_size=args.batch_size, shuffle=False)
-    dataloader = DataLoader(items, batch_size=args.batch_size, shuffle=False, num_workers=8, prefetch_factor=2, pin_memory=True,)
+    dataloader = DataLoader(items, batch_size=batch_size, shuffle=False, num_workers=8, prefetch_factor=2, pin_memory=True,)
     epoch_metrics = process_dataset(model, dataloader, class_details, args)
     epoch_report = generate_epoch_performance_table(epoch_metrics, class_details[0])
     
@@ -250,7 +253,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     if 'CUDA_VISIBLE_DEVICES' not in os.environ: # Forcing all the tensors to be on the specified device(s)
-        os.environ['CUDA_VISIBLE_DEVICES'] = ','.join(map(str, args.devices)) if len(args.devices) > 1 else str(args.devices)
+        os.environ['CUDA_VISIBLE_DEVICES'] = ','.join(map(str, args.devices)) if len(args.devices) > 1 else str(args.devices[0])
         command = [sys.executable,  __file__, ] + sys.argv[1:] 
         process = subprocess.Popen(command, env=os.environ)
         process.wait()

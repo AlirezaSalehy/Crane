@@ -1,8 +1,8 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/crane-context-guided-prompt-learning-and/zero-shot-anomaly-detection-on-mvtec-ad-1)](https://paperswithcode.com/sota/zero-shot-anomaly-detection-on-mvtec-ad-1?p=crane-context-guided-prompt-learning-and) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/crane-context-guided-prompt-learning-and/zero-shot-anomaly-detection-on-visa)](https://paperswithcode.com/sota/zero-shot-anomaly-detection-on-visa?p=crane-context-guided-prompt-learning-and)
 
-# *Crane*; Context-Guided Prompt Learning and Attention Refinement for Zero-Shot Anomaly Detection
-The repository contains official code for *Crane*, a zero-shot anomaly detection framework built on CLIP.
+# $Crane$; Context-Guided Prompt Learning and Attention Refinement for Zero-Shot Anomaly Detection
+The repository contains official code for $Crane$, a zero-shot anomaly detection framework built on CLIP.
 
 ---
 
@@ -22,7 +22,8 @@ The repository contains official code for *Crane*, a zero-shot anomaly detection
 
 ## Introduction
 
-Crane is a zero-shot anomaly detection (ZSAD) framework that leverages a pre-trained vision-language model, CLIP, for robust and generalizable anomaly localization. It introduces two attention refinement modules—E-Attn and D-Attn—inserted into the vision backbone to enhance patch-level alignment, fully utilizing the pretrained knowledge for the zero-shot task. For image-level refinement, Crane adjusts the CLS token to improve global anomaly sensitivity and incorporates a context-guided prompt learning strategy to better model finer-grained anomalies. Together, these components strengthen both image-level and pixel-level detection. Extensive experiments across 14 datasets from industrial and medical domains show that Crane achieves state-of-the-art performance, consistently improving over AdaCLIP and AnomalyCLIP by 2% to 29% across multiple evaluation metrics.
+Anomaly Detection involves identifying deviations from normal data distributions and is critical in fields such as medical diagnostics and industrial defect detection. Traditional AD methods typically require the availability of normal training samples; however, this assumption is not always feasible. Recently, the rich pretraining knowledge of CLIP has shown promising zero-shot generalization in detecting anomalies
+without the need for training samples from target domains. However, CLIP’s coarse-grained image-text alignment limits localization and detection performance for fine-grained anomalies due to: (1) spatial misalignment, and (2) the limited sensitivity of global features to local anomalous patterns. In this paper, we propose $Crane$ which tackles both problems. First, we introduce a correlation-based attention module to retain spatial alignment more accurately. Second, to boost the model’s awareness of fine-grained anomalies, we condition the learnable prompts of the text encoder on image context extracted from the vision encoder and perform a local-to-global representation fusion. Moreover, our method can incorporate vision foundation models such as DINOv2 to further enhance spatial understanding and localization. The key insight of $Crane$ is to balance learnable adaptations for modeling anomalous concepts with non-learnable adaptations that preserve and exploit generalized pretrained knowledge, thereby minimizing in-domain overfitting and maximizing performance on unseen domains. Extensive evaluation across 14 diverse industrial and medical datasets demonstrates that $Crane$ consistently improves the state-of-the-art ZSAD from 2% to 28%, at both image and pixel levels, while remaining competitive in inference speed.
  
 <!-- ### Key Features
 - Enhancing the sensitivity of global  to anomalous cues for image-level anomaly detection
@@ -37,14 +38,11 @@ Crane is a zero-shot anomaly detection (ZSAD) framework that leverages a pre-tra
 
 ## 📊 Main Results
 
-### Zero-shot evaluation on industrial datasets
-![Industrial](assets/Table1.png)
-
-### Zero-shot evaluation on medical datasets
-![Medical](assets/Table2.png)
+### Zero-shot evaluation on industrial & medical datasets
+![Industrial](assets/table1.png)
 
 ## 🖼️ Visualization
-### Samples of zero-shot anomaly localization of Crane for both the main setting and the medical setting (discussed in Appendix D). The complete set of visualizations can be found in Appendix of the paper.
+### Samples of zero-shot anomaly localization of $Crane^+$ for both the main setting and the medical setting (discussed in Appendix G.2). The complete set of visualizations can be found in Appendix of the paper.
 ![total](assets/visualization_combined.jpg)
 
 ## Getting Started
@@ -70,15 +68,15 @@ You can download the datasets from their official sources, and use utilities in 
 ### 🔍 Inference
 The checkpoints for our trained "default" model are available in [`checkpoints`](/checkpoints/) directory. After installing needed libraries, reproduce the results by running: 
 ```bash
-bash test.sh default "0"
+bash test.sh "0"
 ```
-Here, `default` refers to the model_name, and `"0"` specifies the CUDA device ID(s).
+Here, `"0"` specifies the CUDA device ID(s).
 
 ### 🔧 Training
-To train new checkpoints using the default setting, simply run:
+To train new checkpoints and test on the medical and industrial datasets using the default setting, simply run:
 
 ```bash
-bash train.sh new_model 0
+bash reproduce.sh new_model 0
 ```
 where `new_model` and `0` specify the name for the checkpoint and the available cuda device ID.
 
