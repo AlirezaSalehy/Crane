@@ -27,6 +27,7 @@ import sys
 import os
 import subprocess
 import argparse
+import pickle
 from tqdm import tqdm
 from tabulate import tabulate
 
@@ -102,6 +103,8 @@ def compute_metrics_for_object(obj, dataset_results):
     image_auroc = image_level_metrics(dataset_results, obj, "image-auroc")
     image_ap = image_level_metrics(dataset_results, obj, "image-ap")
     image_f1 = image_level_metrics(dataset_results, obj, "image-f1")
+    image_recall = image_level_metrics(dataset_results, obj, "recall")
+    image_precision = image_level_metrics(dataset_results, obj, "precision")
 
     pixel_auroc = pixel_level_metrics(dataset_results, obj, "pixel-auroc")
     pixel_aupro = pixel_level_metrics(dataset_results, obj, "pixel-aupro")
@@ -115,6 +118,8 @@ def compute_metrics_for_object(obj, dataset_results):
         "image_auroc": image_auroc,
         "image_ap": image_ap,
         "image_f1": image_f1,
+        "image_recall": image_recall,
+        "image_precision": image_precision,
     }
 
 def process_dataset(model, dataloader, class_details, args): 
@@ -143,6 +148,7 @@ def process_dataset(model, dataloader, class_details, args):
 
     dp_calc = nn.DataParallel(score_calc, device_ids=args.devices)
     dp_calc.eval()
+    torch.cuda.set_device(args.devices[0])
     dp_calc.cuda()
     
     results = {obj: {'gt_sp': [], 'pr_sp': [], 'imgs_masks': [], 'anomaly_maps': [], 'img_paths': []}
@@ -165,6 +171,15 @@ def process_dataset(model, dataloader, class_details, args):
     if args.visualize:
         for clss, dic in results.items():
             visualizer(dic['img_paths'], dic['anomaly_maps'], dic['imgs_masks'], 518, f'{args.model_name}/{args.dataset}/{args.log_dir}/{class_names[clss]}', draw_contours=True)
+    # To save the results as a pickle file(to inspect the classification results)
+    # See /workspace/poc_jci_Crane/notebooks/evaluation_get_accuracy_based_on_results_pickle.ipynb
+    pickle_save_dir = f'{args.save_path}/{args.log_dir}/epoch_{args.epoch}/'
+    os.makedirs(pickle_save_dir, exist_ok=True)
+    pickle_save_path = os.path.join(pickle_save_dir, 'results.pkl')
+
+    with open(pickle_save_path, 'wb') as f:
+        pickle.dump(results, f)
+    print(f"Saved results dictionary as pickle to: {pickle_save_path}")
 
     epoch_metrics = []
     for obj_id in class_ids:
@@ -216,7 +231,7 @@ if __name__ == '__main__':
     # model
     parser.add_argument("--model_name", type=str, default="trained_on_mvtec_default", help="model_name")
     parser.add_argument("--seed", type=int, default=111, help="random seed")
-    parser.add_argument("--visualize", type=str2bool, default=False)
+    parser.add_argument("--visualize", type=str2bool, default=True)
     
     parser.add_argument("--type", type=str, default='test') 
     parser.add_argument("--devices", nargs='+', type=int, default=[0])
@@ -249,24 +264,22 @@ if __name__ == '__main__':
     parser.add_argument("--why", type=str, help="Explanation about this experiment and how it is different other than parameter values")
     args = parser.parse_args()
     
-    if 'CUDA_VISIBLE_DEVICES' not in os.environ: # Forcing all the tensors to be on the specified device(s)
-        os.environ['CUDA_VISIBLE_DEVICES'] = ','.join(map(str, args.devices)) if len(args.devices) > 1 else str(args.devices)
-        command = [sys.executable,  __file__, ] + sys.argv[1:] 
-        process = subprocess.Popen(command, env=os.environ)
-        process.wait()
-        
-    else:
-        setup_seed(args.seed)
-        args.log_dir = make_human_readable_name(args)        
-        
-        args.data_path = [f"{args.datasets_root_dir}/{args.dataset}/"]
-        args.checkpoint_path = f'./checkpoints/{args.model_name}/epoch_{args.epoch}.pth'
-        args.save_path = f'./results/{args.model_name}/test_on_{args.dataset}/'
+    print("CUDA_VISIBLE_DEVICES =", os.environ.get("CUDA_VISIBLE_DEVICES"))
+    print("Is CUDA available:", torch.cuda.is_available())
+    print("Device count:", torch.cuda.device_count())
+    print("Devices:", [torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())])
 
-        print(f"Testing on dataset from: {args.data_path}") 
-        print(f"Results will be saved to: {colored(args.save_path+args.log_dir, 'green')}")
+    setup_seed(args.seed)
+    args.log_dir = make_human_readable_name(args)        
+    
+    args.data_path = [f"{args.datasets_root_dir}/{args.dataset}/"]
+    args.checkpoint_path = f'./checkpoints/{args.model_name}/epoch_{args.epoch}.pth'
+    args.save_path = f'./results/{args.model_name}/test_on_{args.dataset}/'
 
-        save_args_to_file(args, sys.argv[1:], log_dir=args.log_dir)
+    print(f"Testing on dataset from: {args.data_path}") 
+    print(f"Results will be saved to: {colored(args.save_path+args.log_dir, 'green')}")
 
-        test(args)
+    save_args_to_file(args, sys.argv[1:], log_dir=args.log_dir)
+
+    test(args)
         
