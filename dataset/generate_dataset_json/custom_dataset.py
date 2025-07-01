@@ -49,7 +49,8 @@ def generate_meta(dataset_root, image_exts=('.png', '.jpg', '.jpeg'), mask_exts=
                     if anomaly == 1:
                         mask_dir = cls_dir / "masks"
                         for ext in mask_exts:
-                            candidate = mask_dir / f"{img_path.stem}_mask{ext}"
+                            # Fix: to match the mask file name with the image name
+                            candidate = mask_dir / f"{img_path.stem}{ext}"
                             if candidate.exists():
                                 mask_path = str(candidate.relative_to(dataset_root))
                                 break
@@ -67,3 +68,9 @@ def generate_meta(dataset_root, image_exts=('.png', '.jpg', '.jpeg'), mask_exts=
     with open(out_path, "w") as f:
         json.dump(meta, f, indent=4)
     print(f"✅ meta.json generated at {out_path}")
+
+if __name__ == "__main__":
+    DATASETS_ROOT = '/workspace/data/nail_dataset_v5_train'
+    # DATASETS_ROOT = '/workspace/data/nail_dataset_v5_test'
+    # DATASETS_ROOT = '/workspace/data/hard_test_case'
+    generate_meta(DATASETS_ROOT)
