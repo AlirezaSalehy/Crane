@@ -134,7 +134,7 @@ def cal_pro_score_gpu(masks, amaps, max_step=200, expect_fpr=0.3):
     fprs = fprs[idxes]
     pros = pros[idxes]
     fprs = (fprs - fprs.min()) / (fprs.max() - fprs.min())
-    pro_auc = auc(fprs.cpu().numpy(), pros.cpu().numpy())
+    pro_auc = auc(fprs, pros)
     return pro_auc
 
 # https://github.com/M-3LAB/open-iad/blob/main/metric/mvtec3d/au_pro.py#L205
