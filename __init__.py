@@ -1,1 +1,1 @@
-DATASETS_ROOT='/home/alireza/datasets'
+DATASETS_ROOT='/workspace/data'
