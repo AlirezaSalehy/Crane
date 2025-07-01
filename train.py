@@ -205,18 +205,11 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     
-    if 'CUDA_VISIBLE_DEVICES' not in os.environ:
-        os.environ['CUDA_VISIBLE_DEVICES'] = str(args.device) 
-        command = [sys.executable, __file__, ] + sys.argv[1:]  
-        process = subprocess.Popen(command, env=os.environ)
-        process.wait()
-        
-    else:
-        setup_seed(args.seed)        
+    setup_seed(args.seed)        
 
-        # paths
-        args.train_data_path = [f"{args.datasets_root_dir}/{ds}/" for ds in args.dataset]
-        args.save_path = f'{args.save_path}/trained_on_{"_".join(args.dataset)}_{args.model_name}/'
-        print(f'running {args.model_name}')
+    # paths
+    args.train_data_path = [f"{args.datasets_root_dir}/{ds}/" for ds in args.dataset]
+    args.save_path = f'{args.save_path}/trained_on_{"_".join(args.dataset)}_{args.model_name}/'
+    print(f'running {args.model_name}')
 
-        train(args)
+    train(args)
