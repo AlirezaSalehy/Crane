@@ -42,7 +42,7 @@ without the need for training samples from target domains. However, CLIP’s coa
 ![Industrial](assets/table1.png)
 
 ## 🖼️ Visualization
-### Samples of zero-shot anomaly localization of $Crane^+$ for both the main setting and the medical setting (discussed in Appendix G.2). The complete set of visualizations can be found in Appendix of the paper.
+### Samples of zero-shot anomaly localization of $Crane^+$ for both the main setting and the medical setting (discussed in Appendix E). The complete set of visualizations can be found in Appendix of the paper.
 ![total](assets/visualization_combined.jpg)
 
 ## Getting Started
